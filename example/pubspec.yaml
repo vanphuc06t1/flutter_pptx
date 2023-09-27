@@ -13,6 +13,7 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   share_plus: ^6.3.1
+  path_provider: ^2.1.1 # https://pub.dev/packages/path_provider
   flutter_pptx:
     path: ../packages/flutter_pptx
 

@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_pptx/flutter_pptx.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'download/download.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
 }
 
@@ -199,20 +204,45 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            final pres = await createPresentation();
-            await downloadPresentation(pres);
-          },
-          child: const Text('Download Presentation'),
-        ),
-      ),
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            onPressed: () async {
+              final pres = await createPresentation();
+              await downloadPresentation(pres);
+            },
+            child: const Text('Download Presentation'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              final pres = await createPresentation();
+              Directory appDocDir = await getApplicationDocumentsDirectory();
+              String appDocumentDir = appDocDir.path;
+              print('ENV: appDocumentDir: $appDocumentDir');
+
+              var exportFile = File("${appDocumentDir}/presentation.pptx");
+              final bytes = await pres.save();
+              if (bytes != null) {
+                exportFile.writeAsBytes(bytes.toList(),
+                    mode: FileMode.write, flush: true);
+              }
+            },
+            child: const Text('Export Presentation'),
+          ),
+        ],
+      )),
     );
   }
 }
