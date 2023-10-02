@@ -16,6 +16,7 @@ import 'slides/title_and_photo.dart';
 import 'slides/title_bullets_and_photo.dart';
 import 'slides/title_only.dart';
 import 'slides/title.dart';
+import 'slides/xml_custom.dart';
 
 export 'slides/agenda.dart';
 export 'slides/big_fact.dart';
@@ -32,6 +33,7 @@ export 'slides/title_and_photo.dart';
 export 'slides/title_bullets_and_photo.dart';
 export 'slides/title_only.dart';
 export 'slides/title.dart';
+export 'slides/xml_custom.dart';
 
 extension SlideTemplates on PowerPoint {
   Slide addTitleSlide({
@@ -172,6 +174,14 @@ extension SlideTemplates on PowerPoint {
   Slide addBlankSlide() {
     return addSlide(
       SlideBlank(),
+    );
+  }
+
+  Slide addXMLCustomSlide({
+    String? templateXML,
+  }) {
+    return addSlide(
+      SlideXMLCustom(templateXML: templateXML ?? ""),
     );
   }
 }
